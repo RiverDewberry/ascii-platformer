@@ -31,7 +31,8 @@ function draw()
         {
             checkPos[0] = (i + j * displayArea.dim.w);
             checkPos[1] = (i + j * displayArea.dim.w) + (displayArea.dim.w * displayArea.dim.h);
-            checkPos[2] = (i + j * displayArea.dim.w) + (2 * displayArea.dim.w * displayArea.dim.h);
+            checkPos[2] = (i + j * displayArea.dim.w) + 
+                (2 * displayArea.dim.w * displayArea.dim.h);
 
             keepChar = (previousChars[checkPos[0]] === charArray[checkPos[0]]) &&
             (previousChars[checkPos[1]] === charArray[checkPos[1]]) &&
@@ -44,9 +45,12 @@ function draw()
                 {
                     for(let x = 0; x < 5; x++)
                     {
-                        imgData.data[4 * (((i * 6) + (4 - x)) + imgData.width * ((j * 9) + y))] = 0;
-                        imgData.data[4 * (((i * 6) + (4 - x)) + imgData.width * ((j * 9) + y)) + 1] = 0;
-                        imgData.data[4 * (((i * 6) + (4 - x)) + imgData.width * ((j * 9) + y)) + 2] = 0;
+                        imgData.data[
+                            ((((i * 6) + (4 - x)) + imgData.width * ((j * 9) + y)) << 2)] = 0;
+                        imgData.data[
+                            ((((i * 6) + (4 - x)) + imgData.width * ((j * 9) + y)) << 2) | 1] = 0;
+                        imgData.data[
+                            ((((i * 6) + (4 - x)) + imgData.width * ((j * 9) + y)) << 2) | 2] = 0;
                     }
                 }
             }
@@ -79,29 +83,41 @@ function draw()
         for (let i = 0; i < imgData.data.length; i += 4)
         {
             if(((highlight & 1) === 0) && (imgData.data[i] === 255))imgData.data[i] = 50;
-            if(((highlight & 2) === 0) && (imgData.data[i + 1] === 255))imgData.data[i + 1] = 50;
-            if(((highlight & 4) === 0) && (imgData.data[i + 2] === 255))imgData.data[i + 2] = 50;
+            if(((highlight & 2) === 0) && (imgData.data[i | 1] === 255))imgData.data[i | 1] = 50;
+            if(((highlight & 4) === 0) && (imgData.data[i | 2] === 255))imgData.data[i | 2] = 50;
         }
     } else 
     {
         for (let i = 0; i < imgData.data.length; i += 4)
         {
-            if((imgData.data[i] === 0) && (imgData.data[i + 1] === 255) && (imgData.data[i + 2] === 0))
+            if(
+                (imgData.data[i] === 0) && 
+                (imgData.data[i | 1] === 255) && 
+                (imgData.data[i | 2] === 0))
             {
-                imgData.data[i + 1] = 150;
+                imgData.data[i | 1] = 150;
             }
-            if((imgData.data[i] === 255) && (imgData.data[i + 1] === 0) && (imgData.data[i + 2] === 0))
+            if(
+                (imgData.data[i] === 255) &&
+                (imgData.data[i | 1] === 0) &&
+                (imgData.data[i | 2] === 0))
             {
                 imgData.data[i] = 200;
             }
-            if((imgData.data[i] === 0) && (imgData.data[i + 1] === 0) && (imgData.data[i + 2] === 255))
+            if(
+                (imgData.data[i] === 0) && 
+                (imgData.data[i | 1] === 0) && 
+                (imgData.data[i | 2] === 255))
             {
                 imgData.data[i] = 10;
-                imgData.data[i + 1] = 20;
+                imgData.data[i | 1] = 20;
             }
-            if((imgData.data[i] === 255) && (imgData.data[i + 1] === 255) && (imgData.data[i + 2] === 0))
+            if(
+                (imgData.data[i] === 255) &&
+                (imgData.data[i | 1] === 255) &&
+                (imgData.data[i | 2] === 0))
             {
-                imgData.data[i + 1] = 200;
+                imgData.data[i | 1] = 200;
                 imgData.data[i] = 200;
             }
         }//color correction
@@ -117,9 +133,9 @@ function draw()
                 {
                     if(highlightObj)
                     {
-                        imgData.data[((imgData.width * y + x) * 4)] = 0;
-                        imgData.data[((imgData.width * y + x) * 4) + 1] = 0;
-                        imgData.data[((imgData.width * y + x) * 4) + 2] = 0;
+                        imgData.data[((imgData.width * y + x) << 2)] = 0;
+                        imgData.data[((imgData.width * y + x) << 2) | 1] = 0;
+                        imgData.data[((imgData.width * y + x) << 2) | 2] = 0;
                         if(
                             ((x / 6 + displayArea.pos.x) >= currentTypeArray[objIndex][0]) &&
                             ((y / 9 + displayArea.pos.y) >= currentTypeArray[objIndex][1]) &&
@@ -129,13 +145,13 @@ function draw()
                             currentTypeArray[objIndex][3])
                         )
                         {
-                            imgData.data[((imgData.width * y + x) * 4) + editColor] = 255;
+                            imgData.data[((imgData.width * y + x) << 2) | editColor] = 255;
                         }
                     } else 
                     {
-                        imgData.data[((imgData.width * y + x) * 4)] = 0;
-                        imgData.data[((imgData.width * y + x) * 4) + 1] = 0;
-                        imgData.data[((imgData.width * y + x) * 4) + 2] = 0;
+                        imgData.data[((imgData.width * y + x) << 2)] = 0;
+                        imgData.data[((imgData.width * y + x) << 2) | 1] = 0;
+                        imgData.data[((imgData.width * y + x) << 2) | 2] = 0;
                     }
                 }
             }
@@ -155,7 +171,7 @@ function addLetter(imgd, x, y, letter, color)
         for(let j = 0; j < 5; j++)
         {
             if((ASCIIBitData[(letter * 8) + i] & (1 << j)) === (1 << j))
-                imgd.data[4 * ((x + (4 - j)) + imgd.width * (y + i)) + color] = 255;
+                imgd.data[(((x + (4 - j)) + imgd.width * (y + i)) << 2) | color] = 255;
             //finds the bit associated with each pixel in a character to then draw that character
         }
     }
