@@ -1,6 +1,3 @@
-clearInterval(1);
-let interval = setInterval(gameLoop, 20);
-
 function gameLoop()
 {
     movePlayer(1);
