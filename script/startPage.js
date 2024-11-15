@@ -3,6 +3,19 @@ Level.drawLevel();
 let start = true;
 let interval = undefined;
 
+const startCardText = [
+	"         ",
+	"  /-|| ||/--",
+	" //-|| |//--",
+	" || |--||",
+	" \\\\-||-||",
+	"  \\-|| ||",
+
+];
+
+drawStartCard();
+draw();
+
 window.addEventListener('keydown',
     (e) => {
         if (start === true) {
@@ -20,6 +33,7 @@ window.addEventListener('keydown',
                 charArray[i] = previousChars[i];
             }
 
+            drawStartCard();
             draw();
 
             if (e.key === 'Enter') {
@@ -45,3 +59,13 @@ window.addEventListener('keydown',
         }
     }
 );
+
+function drawStartCard() {
+	for(let i = 0; i < startCardText.length; i++)
+	{
+		for(let j = 0; j < startCardText[i].length; j++)
+		{
+			charArray[i * displayArea.dim.w + j] = startCardText[i].charCodeAt(j);
+		}
+	}
+}
