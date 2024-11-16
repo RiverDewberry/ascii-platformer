@@ -5,14 +5,29 @@ let interval = undefined;
 
 const startCardText = [
 	"",
-	"  /--"+   "||  ||/------\\ /|"+   "/--\\",
-	" //--"+   "||  |//-/-\\-\\\\//|"+ "---\\\\",
-	" ||  "+   "|--\\|| || || \\/||"+  "   ||",
-	" \\\\--"+ "||-\\\\| |\\-/|   ||"+ "---//",
-	"  \\--"+  "||  || \\---/   ||"+   "\\--/",
-	" A game by River Dewberry"
+	"  /=\\\\  "+"|| ||  "+"|===\\  "  +" /==\\   " +"|\\  /|  " +"  /\\   " +"======  "+"==== "+
+    "  /=\\\\",
+    " //     "  +"|| ||  "+"|| ||  "   +"//  \\\\  "+"|\\\\//|  "+" //\\\\  "+"  ||    "+" ||  "+
+    " //    ",
+    " ||     "  +"|===|  "+"|\\==/  "  +"||  ||  "  +"||  ||  "  +"//  \\\\ "+"  ||    "+" ||  "+
+    " ||    ",
+    " \\\\     "+"|| ||  "+"||\\\\   " +"\\\\  //  "+"||  ||  "  +"||==|| "  +"  ||    "+" ||  "+
+    " \\\\  ",
+    "  \\=//  " +"|| ||  "+"|| \\\\  " +" \\==/   " +"||  ||  "  +"||  || "  +"  ||    "+"==== "+
+    "  \\=//",
+	" CHROMATIC - A game by River Dewberry",
+    "",
+    " Press \"Enter\" to start game",
+    " Press \"Escape\" to return to this screen",
+    " Press \"e\" for level editor",
+    " Use \">\" and \"<\" for level select"
 
 ];
+
+for(let i = 0; i < charArray.length; i++)
+{
+    charArray[i] = previousChars[i];
+}
 
 drawStartCard();
 draw();
@@ -41,6 +56,8 @@ window.addEventListener('keydown',
                 start = false;
                 interval = setInterval(gameLoop, 20);
             }
+
+            if (e.key === "e")document.getElementById("test").click();
         }
         else {
             if(e.key === "Escape"){
@@ -54,6 +71,12 @@ window.addEventListener('keydown',
 
                 killPlayer();
                 Level.drawLevel();
+                for(let i = 0; i < charArray.length; i++)
+                {
+                    charArray[i] = previousChars[i];
+                }        
+                drawStartCard();
+                draw();
                 start = true;
                 clearInterval(interval);
             }
@@ -66,7 +89,33 @@ function drawStartCard() {
 	{
 		for(let j = 0; j < startCardText[i].length; j++)
 		{
-			charArray[i * displayArea.dim.w + j] = startCardText[i].charCodeAt(j);
+            if(i < 6){
+                const offset = [0, 0, 0];
+
+                offset[0] = Math.floor(Math.random() * 3);
+                offset[1] = Math.floor(Math.random() * 2);
+                if(offset[0] === offset[1])offset[1]++;
+                if(offset[0] === 0 || offset[1] === 0){
+                    offset[2]++;
+                    if(offset[0] === 1 || offset[1] === 1)offset[2]++;
+                }
+                charArray[i * displayArea.dim.w + offset[0] + j] = startCardText[i].charCodeAt(j);
+                charArray[
+                    i * displayArea.dim.w + j + offset[1] + displayArea.dim.h * displayArea.dim.w
+                ] = startCardText[i].charCodeAt(j);
+                charArray[
+                    i * displayArea.dim.w + j + offset[2] + displayArea.dim.h * displayArea.dim.w *
+                    2
+                ] = startCardText[i].charCodeAt(j);
+            } else {
+                charArray[i * displayArea.dim.w + j] = startCardText[i].charCodeAt(j);
+                charArray[
+                    i * displayArea.dim.w + j + displayArea.dim.h * displayArea.dim.w
+                ] = startCardText[i].charCodeAt(j);
+                charArray[
+                    i * displayArea.dim.w + j + displayArea.dim.h * displayArea.dim.w * 2
+                ] = startCardText[i].charCodeAt(j);
+            }
 		}
 	}
 }
