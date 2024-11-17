@@ -1,3 +1,3 @@
 # ascii-platformer
 
-work in progress
+version 1.0.0
