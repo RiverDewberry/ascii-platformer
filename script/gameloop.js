@@ -64,24 +64,14 @@ function gameLoop()
         if(levelIndex < levelData.length)Level.loadLevel(levels[levelIndex]);
         else {
             levelIndex--;
-        	displayArea.pos.x = 0;
-                displayArea.pos.y = 0;
-
-                for(let i = 0; i < levelData.length; i++)
-                {
-                    levels[i] = new Level(levelData[i]);
-                }
-
-                killPlayer();
-                Level.drawLevel();
-                for(let i = 0; i < charArray.length; i++)
-                {
-                    charArray[i] = previousChars[i];
-                }        
-                drawStartCard();
-                draw();
-                start = true;
-                clearInterval(interval);
+            displayArea.pos.x = 0;
+            displayArea.pos.y = 0;
+            killPlayer();
+            Level.drawLevel(); 
+            drawStartCard();
+            draw();
+	    start = true;
+            clearInterval(interval);
 	};
         keysDown = [];
     }
