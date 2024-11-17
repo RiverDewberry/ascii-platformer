@@ -62,7 +62,27 @@ function gameLoop()
     {
         levelIndex++;
         if(levelIndex < levelData.length)Level.loadLevel(levels[levelIndex]);
-        else alert("you win");
+        else {
+            levelIndex--;
+        	displayArea.pos.x = 0;
+                displayArea.pos.y = 0;
+
+                for(let i = 0; i < levelData.length; i++)
+                {
+                    levels[i] = new Level(levelData[i]);
+                }
+
+                killPlayer();
+                Level.drawLevel();
+                for(let i = 0; i < charArray.length; i++)
+                {
+                    charArray[i] = previousChars[i];
+                }        
+                drawStartCard();
+                draw();
+                start = true;
+                clearInterval(interval);
+	};
         keysDown = [];
     }
 
