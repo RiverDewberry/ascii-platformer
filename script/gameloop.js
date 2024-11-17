@@ -63,17 +63,23 @@ function gameLoop()
         levelIndex++;
         if(levelIndex < levelData.length)Level.loadLevel(levels[levelIndex]);
         else {
-            levelIndex--;
+            levelIndex = 0;
             displayArea.pos.x = 0;
             displayArea.pos.y = 0;
             killPlayer();
-            Level.drawLevel(); 
+	    Level.loadLevel(levels[levelIndex]);
+            Level.drawLevel();
+            for(let i = 0; i < charArray.length; i++)
+            {
+                charArray[i] = previousChars[i];
+            } 
             drawStartCard();
             draw();
-	    start = true;
+            start = true;
             clearInterval(interval);
 	};
         keysDown = [];
+        console.log(levelIndex);
     }
 
     for(let i = 0; i < 3; i++)
