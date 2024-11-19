@@ -35,7 +35,11 @@ draw();
 window.addEventListener('keydown',
     (e) => {
         if (start === true) {
-            if (e.key === 'ArrowRight') Level.loadLevel(levels[++levelIndex % levels.length]);
+            if (e.key === 'ArrowRight') {
+                levelIndex++;
+                levelIndex %= levels.length
+                Level.loadLevel(levels[levelIndex]);
+            }
             if (e.key === 'ArrowLeft') {
                 if (levelIndex === 0) levelIndex = levels.length;
                 --levelIndex;
