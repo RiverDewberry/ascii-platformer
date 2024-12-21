@@ -1,3 +1,6 @@
+clearInterval(1);
+let interval = setInterval(gameLoop, 20);
+
 const displayArea = new Area(0, 0, 200, 69);//the area of the display measured in characters
 const charSize = 8;
 const canvas = document.getElementById("display");
